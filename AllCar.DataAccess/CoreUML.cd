@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AllCar.Core.Common.CoreCrudService&lt;TEntity, TDto&gt;" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AllCar.Core.Domain.PartsService" Collapsed="true">
+    <Position X="5.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AllCar.Core.Domain.WorkOrdersService" Collapsed="true">
+    <Position X="11" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AllCar.DataAccess.Repositories.CommonRepository&lt;TEntity&gt;" Collapsed="true">
+    <Position X="11" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\CommonRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AllCar.DataAccess.Abstracts.BaseRepository&lt;TEntity&gt;" Collapsed="true">
+    <Position X="13.75" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAiAABEAAAAgAABAAAAAAAAgAAAAAIoAAAAA=</HashCode>
+      <FileName>Abstracts\BaseRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AllCar.DataAccess.Context.SqlEfContext" Collapsed="true">
+    <Position X="13.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\SqlEfContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AllCar.DataAccess.Configuration.BaseEntityConfiguration&lt;TEntity&gt;" Collapsed="true">
+    <Position X="10" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\BaseEntityConfiguration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AllCar.DataAccess.SqlUnitOfWork">
+    <Position X="8.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SqlUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.69" />
+  </Class>
+  <Interface Name="AllCar.Core.Interfaces.Common.IBaseCrudService&lt;TEntity, TDto&gt;" Collapsed="true">
+    <Position X="2.75" Y="0.75" Width="2.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="AllCar.Core.Interfaces.Domain.IWorkOrdersService" Collapsed="true">
+    <Position X="2.75" Y="3.25" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="AllCar.Core.Interfaces.Domain.IPartsService" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="AllCar.Core.Interfaces.Common.IRepository&lt;TEntity&gt;" Collapsed="true">
+    <Position X="11" Y="1.5" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="AllCar.Core.Interfaces.IUnitOfWork" Collapsed="true">
+    <Position X="12" Y="5.25" Width="3.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

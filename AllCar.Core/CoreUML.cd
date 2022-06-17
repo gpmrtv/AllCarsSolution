@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AllCar.Core.Common.CoreCrudService&lt;TEntity, TDto&gt;" Collapsed="true">
+    <Position X="7.75" Y="1" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAIAACAAAEAACAgAABAAAAAAAAgAAAAAIoCAAAA=</HashCode>
+      <FileName>Core\Common\CoreCrudService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AllCar.Core.Domain.PartsService" Collapsed="true">
+    <Position X="5.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Core\Domain\PartsService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AllCar.Core.Domain.WorkOrdersService" Collapsed="true">
+    <Position X="9" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgABCAgAAAAAQAAIAAAAARAAAABAACAEIAAgQA=</HashCode>
+      <FileName>Core\Domain\WorkOrdersService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="AllCar.Core.Interfaces.Common.IBaseCrudService&lt;TEntity, TDto&gt;" Collapsed="true">
+    <Position X="1.25" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAEAAAAgAABAAAAAAAAgAAAAAIIAAAAA=</HashCode>
+      <FileName>Interfaces\Common\IBaseCrudService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AllCar.Core.Interfaces.Domain.IWorkOrdersService" Collapsed="true">
+    <Position X="1.25" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgABAAgAAAAAQAAAAAAAARAAAABAACAEIAAAAA=</HashCode>
+      <FileName>Interfaces\Domain\IWorkOrdersService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AllCar.Core.Interfaces.Domain.IPartsService" Collapsed="true">
+    <Position X="4.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Domain\IPartsService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AllCar.Core.Interfaces.Common.IRepository&lt;TEntity&gt;" Collapsed="true">
+    <Position X="11.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAEAAAAgAABAAAAAAAAgAAAAAIIAAAAA=</HashCode>
+      <FileName>Interfaces\Common\IRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AllCar.Core.Interfaces.IUnitOfWork" Collapsed="true">
+    <Position X="11" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,154 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using AllCar.Core.Extensions;
+using AllCar.Core.Interfaces.Common.Providers;
+using AllCar.DataAccess.Context;
+using AllCar.Shared.Entities;
+using AllCar.Shared.Interfaces.Markers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace AllCar.DataAccess.Logging.Providers
+{
+    public class TableLoggingProvider : ILoggingProvider
+    {
+        protected DbContext Context { get; init; }
+        protected DbSet<LogEntity> Set { get; init; }
+        protected IHttpContextAccessor HttpContextAccessor { get; init; }
+
+        private bool disposedValue;
+
+        public TableLoggingProvider(SqlEfContext context, IHttpContextAccessor httpContextAccessor)
+        {
+            Context = context;
+            Set = Context.Set<LogEntity>();
+
+            HttpContextAccessor = httpContextAccessor;
+        }
+
+        public async Task LogCreatingEntity<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : BaseEntity
+        {
+            if (entity is ILoggable)
+            {
+                var logEntity = new LogEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    ContextId = entity.Id,
+                    NewJson = JsonConvert.SerializeObject(entity),
+                    ModifiedUserId = HttpContextAccessor.GetCurrentUserId(),
+                    ModifiedDateTime = DateTime.UtcNow,
+                    Operation = OperationType.Create
+                };
+
+                await Set.AddAsync(logEntity, cancellationToken);
+            }
+        }
+
+        public async Task LogCreatingEntity<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : BaseEntity
+        {
+            var logs = new List<LogEntity>();
+
+            if (entities.FirstOrDefault() is ILoggable)
+            {
+                foreach (var entity in entities)
+                {
+                    logs.Add(new LogEntity()
+                    {
+                        Id = Guid.NewGuid(),
+                        ContextId = entity.Id,
+                        NewJson = JsonConvert.SerializeObject(entity),
+                        ModifiedUserId = HttpContextAccessor.GetCurrentUserId(),
+                        ModifiedDateTime = DateTime.UtcNow,
+                        Operation = OperationType.Create
+                    });
+                }
+
+                await Set.AddRangeAsync(logs, cancellationToken);
+            }
+        }
+
+        public async Task LogUpdatingEntity<TEntity>(TEntity entity, TEntity oldEntity, CancellationToken cancellationToken = default) where TEntity : BaseEntity
+        {
+            if (entity is ILoggable)
+            {
+                var logEntity = new LogEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    ContextId = entity.Id,
+                    NewJson = JsonConvert.SerializeObject(entity),
+                    OldJson = JsonConvert.SerializeObject(oldEntity),
+                    DifferentsJson = oldEntity.GetDifferences(entity),
+                    ModifiedUserId = HttpContextAccessor.GetCurrentUserId(),
+                    ModifiedDateTime = DateTime.UtcNow,
+                    Operation = OperationType.Update
+                };
+
+                await Set.AddAsync(logEntity, cancellationToken);
+            }
+        }
+
+        public async Task LogRemovingEntity<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : BaseEntity
+        {
+            if (entity is ILoggable)
+            {
+                var logEntity = new LogEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    ContextId = entity.Id,
+                    OldJson = JsonConvert.SerializeObject(entity),
+                    ModifiedUserId = HttpContextAccessor.GetCurrentUserId(),
+                    ModifiedDateTime = DateTime.UtcNow,
+                    Operation = OperationType.Delete
+                };
+
+                await Set.AddAsync(logEntity, cancellationToken);
+            }
+        }
+
+        public async Task LogRemovingEntity<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : BaseEntity
+        {
+            var logs = new List<LogEntity>();
+
+            if (entities.FirstOrDefault() is ILoggable)
+            {
+                foreach (var entity in entities)
+                {
+                    logs.Add(new LogEntity()
+                    {
+                        Id = Guid.NewGuid(),
+                        ContextId = entity.Id,
+                        NewJson = JsonConvert.SerializeObject(entity),
+                        ModifiedUserId = HttpContextAccessor.GetCurrentUserId(),
+                        ModifiedDateTime = DateTime.UtcNow,
+                        Operation = OperationType.Delete
+                    });
+                }
+
+                await Set.AddRangeAsync(logs, cancellationToken);
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    Context?.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+    }
+}

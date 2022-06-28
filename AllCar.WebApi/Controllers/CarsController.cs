@@ -1,17 +1,13 @@
 ﻿using AllCar.Exchange.Controllers;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using AllCar.Core.Interfaces.Common;
 using AllCar.Shared.ViewModels;
 using AllCar.Shared.Dto;
 using AllCar.Shared.Entities;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using AllCar.Core.Utilities.Exchange;
 
-namespace AllCar.WebApi.Controllers.References
+namespace AllCar.WebApi.Controllers
 {
     public class CarsController : BaseCrudController<CarViewModel, CarDto, CarEntity>
     {

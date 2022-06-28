@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AllCar.Shared.ViewModels.References
+﻿namespace AllCar.Shared.ViewModels.References
 {
     public class MakeViewModel : BaseViewModel
     {

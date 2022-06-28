@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using AllCar.Shared.Dto;
-using AllCar.Shared.Dto.Identity;
 using AllCar.Shared.Dto.References;
 using AllCar.Shared.Entities;
 using AllCar.Shared.Entities.References;
 using AllCar.Shared.ViewModels;
-using AllCar.Shared.ViewModels.Identity;
 using AllCar.Shared.ViewModels.References;
 
 namespace AllCar.WebApi.Mappers
@@ -23,6 +21,8 @@ namespace AllCar.WebApi.Mappers
             CreateMap<GearboxEntity, GearboxDto>().ReverseMap();
             CreateMap<GearEntity, GearDto>().ReverseMap();
             CreateMap<GenerationEntity, GenerationDto>().ReverseMap();
+            CreateMap<AreaEntity, AreaDto>().ReverseMap();
+            CreateMap<CarAreasEntity, CarAreasDto>().ReverseMap();
 
             CreateMap<CarViewModel, CarDto>().ReverseMap();
             CreateMap<ColorViewModel, ColorDto>().ReverseMap();
@@ -33,6 +33,8 @@ namespace AllCar.WebApi.Mappers
             CreateMap<GearboxViewModel, GearboxDto>().ReverseMap();
             CreateMap<GearViewModel, GearDto>().ReverseMap();
             CreateMap<GenerationViewModel, GenerationDto>().ReverseMap();
+            CreateMap<AreaViewModel, AreaDto>().ReverseMap();
+            CreateMap<CarAreasViewModel, CarAreasDto>().ReverseMap();
         }
     }
 }

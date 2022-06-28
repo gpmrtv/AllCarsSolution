@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+	  <TargetFramework>net6.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AllCar.Core\AllCar.Core.csproj" />
-    <ProjectReference Include="..\AllCar.Shared\AllCar.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,5 +15,7 @@ namespace AllCar.Shared.Entities
         public virtual ColorEntity Color { get; set; }
         public virtual Guid EquipmentVariantId { get; set; }
         public virtual EquipmentVariantEntity EquipmentVariant { get; set; }
+        public virtual ICollection<AreaEntity> Areas { get; set; }
+        public virtual ICollection<CarAreasEntity> CarAreas { get; set; }
     }
 }

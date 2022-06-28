@@ -1,7 +1,4 @@
-﻿using AllCar.Shared.Interfaces.Markers;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace AllCar.Shared.Dto.References
 {

@@ -312,6 +312,49 @@ namespace AllCar.DataAccess.Migrations
                     b.ToTable("Logs");
                 });
 
+            modelBuilder.Entity("AllCar.Shared.Entities.References.AreaEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("CreatedDateTime");
+
+                    b.Property<Guid>("CreatedUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("CreatedUserId");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("Description");
+
+                    b.Property<string>("LogoUri")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("LogoUri");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("Name");
+
+                    b.Property<DateTime?>("UpdatedDateTime")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("UpdatedDateTime");
+
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("UpdatedUserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Areas");
+                });
+
             modelBuilder.Entity("AllCar.Shared.Entities.References.BodyEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -350,6 +393,40 @@ namespace AllCar.DataAccess.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Bodies");
+                });
+
+            modelBuilder.Entity("AllCar.Shared.Entities.References.CarAreasEntity", b =>
+                {
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AreaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("numeric")
+                        .HasColumnName("Cost");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatedUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedDateTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("CarId", "AreaId");
+
+                    b.HasIndex("AreaId");
+
+                    b.ToTable("CarAreas");
                 });
 
             modelBuilder.Entity("AllCar.Shared.Entities.References.ColorEntity", b =>
@@ -759,6 +836,25 @@ namespace AllCar.DataAccess.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("AllCar.Shared.Entities.References.CarAreasEntity", b =>
+                {
+                    b.HasOne("AllCar.Shared.Entities.References.AreaEntity", "Area")
+                        .WithMany("CarAreas")
+                        .HasForeignKey("AreaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AllCar.Shared.Entities.CarEntity", "Car")
+                        .WithMany("CarAreas")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Area");
+
+                    b.Navigation("Car");
+                });
+
             modelBuilder.Entity("AllCar.Shared.Entities.References.ColorEntity", b =>
                 {
                     b.HasOne("AllCar.Shared.Entities.References.ColorEntity", "Parent")
@@ -859,6 +955,11 @@ namespace AllCar.DataAccess.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("AllCar.Shared.Entities.CarEntity", b =>
+                {
+                    b.Navigation("CarAreas");
+                });
+
             modelBuilder.Entity("AllCar.Shared.Entities.Identity.PermissionEntity", b =>
                 {
                     b.Navigation("Roles");
@@ -874,6 +975,11 @@ namespace AllCar.DataAccess.Migrations
             modelBuilder.Entity("AllCar.Shared.Entities.Identity.UserEntity", b =>
                 {
                     b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("AllCar.Shared.Entities.References.AreaEntity", b =>
+                {
+                    b.Navigation("CarAreas");
                 });
 
             modelBuilder.Entity("AllCar.Shared.Entities.References.BodyEntity", b =>

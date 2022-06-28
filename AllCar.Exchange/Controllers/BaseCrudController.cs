@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,9 +7,7 @@ using AllCar.Core.Interfaces.Common;
 using AllCar.Shared.Dto;
 using AllCar.Shared.Entities;
 using AllCar.Shared.ViewModels;
-using AllCar.Exchange;
-using System;
-using System.Threading.Tasks;
+using AllCar.Core.Exceptions;
 
 namespace AllCar.Exchange.Controllers
 {
@@ -29,6 +26,7 @@ namespace AllCar.Exchange.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public virtual async Task<ActionResult<TView>> Post([FromBody] TView body)
@@ -49,9 +47,16 @@ namespace AllCar.Exchange.Controllers
                     return CreatedAtRoute(routeName, new { id = createdEntity.Id}, ExchangeResult.CreateOkResult(userId, Mapper.Map<TView>(createdEntity)));
                 }
             }
+            catch(BusinessException bEx)
+            {
+
+                Logger.LogError(bEx, "Error occured in Post {Exception}", bEx.ToString());
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new MessageResponse { Message = bEx.ToString() });
+            }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error occured in Post", ex.ToString());
+                Logger.LogError(ex, "Error occured in Post {Exception}", ex.ToString());
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new MessageResponse { Message = ex.ToString() });
             }
@@ -59,6 +64,7 @@ namespace AllCar.Exchange.Controllers
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -78,6 +84,13 @@ namespace AllCar.Exchange.Controllers
                     return Ok(ExchangeResult.CreateOkResult(userId, Mapper.Map<TView>(updatedEntity)));
                 }
             }
+            catch (BusinessException bEx)
+            {
+
+                Logger.LogError(bEx, "Error occured in Put {Exception}", bEx.ToString());
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new MessageResponse { Message = bEx.ToString() });
+            }
             catch (ArgumentException aEx)
             {
                 Logger.LogWarning("Entry not found! {Message}", aEx.Message);
@@ -85,7 +98,7 @@ namespace AllCar.Exchange.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error occured in Put", ex.ToString());
+                Logger.LogError(ex, "Error occured in Put {Exception}", ex.ToString());
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new MessageResponse { Message = ex.ToString() });
             }
@@ -94,6 +107,7 @@ namespace AllCar.Exchange.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -113,6 +127,13 @@ namespace AllCar.Exchange.Controllers
 
                 return Accepted();
             }
+            catch (BusinessException bEx)
+            {
+
+                Logger.LogError(bEx, "Error occured in Delete {Exception}", bEx.ToString());
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new MessageResponse { Message = bEx.ToString() });
+            }
             catch (ArgumentException aEx)
             {
                 Logger.LogWarning("Entry not found! {Message}", aEx.Message);
@@ -120,7 +141,7 @@ namespace AllCar.Exchange.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error occured in Delete", ex.ToString());
+                Logger.LogError(ex, "Error occured in Delete {Exception}", ex.ToString());
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new MessageResponse { Message = ex.ToString() });
             }

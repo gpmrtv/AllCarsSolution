@@ -1,10 +1,6 @@
 ﻿using AllCar.Core.Interfaces.Common;
 using AllCar.Shared.Dto.Identity;
 using AllCar.Shared.Entities.Identity;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AllCar.Core.Interfaces.Identity
 {

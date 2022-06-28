@@ -2,7 +2,7 @@
 using AllCar.Shared.ViewModels;
 using System;
 
-namespace AllCar.WebApi.Exchange
+namespace Rolf.WebApi.Exchange
 {
     public class ExchangeResult
     {

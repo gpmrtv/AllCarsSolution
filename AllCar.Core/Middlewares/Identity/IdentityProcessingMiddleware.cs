@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Memory;
-using AllCar.Core.Interfaces.Identity;
+﻿using AllCar.Core.Interfaces.Identity;
 using AllCar.Shared.Dto.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AllCar.Core.Middlewares.Identity
 {

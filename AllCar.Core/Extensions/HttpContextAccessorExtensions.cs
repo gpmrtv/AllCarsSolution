@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using AllCar.Shared.Dto.Identity;
 using AllCar.Shared.ViewModels.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using AllCar.Shared.Dto.Identity;
 
 namespace AllCar.Core.Extensions
 {

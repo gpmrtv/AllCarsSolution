@@ -1,7 +1,4 @@
 ﻿using AllCar.Shared.Dto;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AllCar.Core.Interfaces.Common
 {

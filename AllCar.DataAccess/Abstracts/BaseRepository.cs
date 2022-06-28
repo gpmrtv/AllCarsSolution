@@ -2,12 +2,7 @@
 using AllCar.Core.Interfaces.Common;
 using AllCar.Core.Interfaces.Common.Providers;
 using AllCar.Shared.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AllCar.DataAccess.Abstracts
 {

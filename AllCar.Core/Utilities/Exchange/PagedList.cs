@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AllCar.Core.Utilities.Exchange
 {
@@ -51,18 +46,42 @@ namespace AllCar.Core.Utilities.Exchange
 
     public static class PagedListExtensions
     {
-        public static PagedList<T> ToPagedList<T>(this IQueryable<T> query, int pageNum, int pageSize) where T : class
+        public static PagedList<T> ToPagedList<T>(this IQueryable<T> query, PageParameters parameters) where T : class
         {
             var count = query.Count();
-            var items = query.Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
-            return new PagedList<T>(items, count, pageNum, pageSize);
+
+            var items = query
+                .ApplyFilter(parameters.Filter)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToList();
+
+            return new PagedList<T>(items, count, parameters.PageNumber, parameters.PageSize);
         }
 
-        public static async Task<PagedList<T>> ToPagedListAsync<T>(this IQueryable<T> query, int pageNum, int pageSize, CancellationToken cancellationToken = default) where T : class
+        public static async Task<PagedList<T>> ToPagedListAsync<T>(this IQueryable<T> query, PageParameters parameters, CancellationToken cancellationToken = default) where T : class
         {
             var count = query.Count();
-            var items = await query.Skip((pageNum - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
-            return new PagedList<T>(items, count, pageNum, pageSize);
+
+            var items = await query
+                .ApplyFilter(parameters.Filter)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToListAsync(cancellationToken);
+
+            return new PagedList<T>(items, count, parameters.PageNumber, parameters.PageSize);
+        }
+
+        private static IQueryable<T> ApplyFilter<T>(this IQueryable<T> query, string filter) where T : class
+        {
+            if (!string.IsNullOrEmpty(filter))
+            {
+                return query.Where(filter);
+            }
+            else
+            {
+                return query;
+            }
         }
     }
 }

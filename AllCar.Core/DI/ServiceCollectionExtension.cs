@@ -1,18 +1,12 @@
-﻿using AutoMapper.EquivalencyExpression;
-using AutoMapper.Extensions.ExpressionMapping;
-using Microsoft.Extensions.DependencyInjection;
-using AllCar.Core.Common;
-using AllCar.Core.Core.Common.Providers;
-using AllCar.Core.Core.Identity;
-using AllCar.Core.Interfaces.Common;
+﻿using AllCar.Core.Common.Providers;
+using AllCar.Core.Identity;
 using AllCar.Core.Interfaces.Common.Providers;
 using AllCar.Core.Interfaces.Identity;
 using AllCar.Core.Mappers;
 using AllCar.Core.Middlewares.Identity;
-using AllCar.Shared.Dto;
-using AllCar.Shared.Dto.References;
-using AllCar.Shared.Entities;
-using AllCar.Shared.Entities.References;
+using AutoMapper.EquivalencyExpression;
+using AutoMapper.Extensions.ExpressionMapping;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AllCar.Core.DI
 {

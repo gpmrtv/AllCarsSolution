@@ -1,10 +1,7 @@
 ﻿using AllCar.Core.Utilities.Exchange;
 using AllCar.Shared.Dto;
 using AllCar.Shared.Entities;
-using System;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AllCar.Core.Interfaces.Common
 {

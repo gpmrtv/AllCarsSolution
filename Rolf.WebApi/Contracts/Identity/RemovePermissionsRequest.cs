@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AllCar.WebApi.Contracts.Identity
+namespace Rolf.WebApi.Contracts.Identity
 {
     public class RemovePermissionsRequest
     {

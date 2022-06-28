@@ -7,15 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rolf.WebApi", "Rolf.WebApi\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllCar.WebApi", "AllCar.WebApi\AllCar.WebApi.csproj", "{3F570A0F-62E6-471B-AB78-92198F2BB707}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllCar.Exchange", "AllCar.Exchange\AllCar.Exchange.csproj", "{63FEDFF8-02BB-4FF9-899F-B883BC6972ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllCar.Exchange", "AllCar.Exchange\AllCar.Exchange.csproj", "{63FEDFF8-02BB-4FF9-899F-B883BC6972ED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllCar.Core", "AllCar.Core\AllCar.Core.csproj", "{671D15D5-17F1-4493-9B35-5DCAD7A719A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllCar.Identity", "AllCar.Identity\AllCar.Identity.csproj", "{3FBB26DF-F095-4211-831B-BDD8B5F969E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllCar.Shared", "AllCar.Shared\AllCar.Shared.csproj", "{DAF451C9-08FA-4CCD-8AB8-23349D1722B6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllCar.DataAccess", "AllCar.DataAccess\AllCar.DataAccess.csproj", "{B9C0945B-1499-456D-AA01-2432BCDD0593}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllCar.Shared", "AllCar.Shared\AllCar.Shared.csproj", "{6F60C53D-1A72-446F-A03B-709D9FD5E128}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +43,14 @@ Global
 		{3FBB26DF-F095-4211-831B-BDD8B5F969E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FBB26DF-F095-4211-831B-BDD8B5F969E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FBB26DF-F095-4211-831B-BDD8B5F969E3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DAF451C9-08FA-4CCD-8AB8-23349D1722B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DAF451C9-08FA-4CCD-8AB8-23349D1722B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DAF451C9-08FA-4CCD-8AB8-23349D1722B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAF451C9-08FA-4CCD-8AB8-23349D1722B6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9C0945B-1499-456D-AA01-2432BCDD0593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B9C0945B-1499-456D-AA01-2432BCDD0593}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9C0945B-1499-456D-AA01-2432BCDD0593}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9C0945B-1499-456D-AA01-2432BCDD0593}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F60C53D-1A72-446F-A03B-709D9FD5E128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F60C53D-1A72-446F-A03B-709D9FD5E128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F60C53D-1A72-446F-A03B-709D9FD5E128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F60C53D-1A72-446F-A03B-709D9FD5E128}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

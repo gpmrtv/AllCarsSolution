@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AllCar.Exchange
+﻿namespace AllCar.Exchange
 {
     public class ExchangeMetadata
     {

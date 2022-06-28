@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace AllCar.Identity
 {

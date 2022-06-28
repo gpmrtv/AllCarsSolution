@@ -1,10 +1,7 @@
 ﻿using AllCar.Core.Interfaces.Common.Providers;
 using AllCar.Shared.Dto;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace AllCar.Core.Core.Common.Providers
+namespace AllCar.Core.Common.Providers
 {
     internal class CoreReplicationProvider : IReplicationProvider
     {

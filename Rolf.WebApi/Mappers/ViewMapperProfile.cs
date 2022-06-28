@@ -6,7 +6,7 @@ using AllCar.Shared.ViewModels;
 using AllCar.Shared.ViewModels.Identity;
 using AllCar.Shared.ViewModels.References;
 
-namespace AllCar.WebApi.Mappers
+namespace Rolf.WebApi.Mappers
 {
     public class ViewMapperProfile : Profile
     {

@@ -1,19 +1,13 @@
 ﻿using AllCar.Exchange.Controllers;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using AllCar.Core.Interfaces.Common;
 using AllCar.Shared.Dto.References;
 using AllCar.Shared.Entities.References;
 using AllCar.Shared.ViewModels.References;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System;
 using AllCar.Core.Utilities.Exchange;
 using AllCar.Core.Extensions;
 using AllCar.Exchange;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AllCar.WebApi.Controllers.References
 {

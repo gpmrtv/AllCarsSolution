@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using AllCar.Shared.Dto;
-using AllCar.Shared.Dto.Identity;
-using AllCar.Shared.Dto.References;
-using AllCar.Shared.Entities;
+﻿using AllCar.Shared.Dto.Identity;
 using AllCar.Shared.Entities.Identity;
-using AllCar.Shared.Entities.References;
+using AutoMapper;
 
 namespace AllCar.Core.Mappers
 {

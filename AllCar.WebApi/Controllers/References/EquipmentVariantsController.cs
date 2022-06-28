@@ -4,11 +4,7 @@ using AllCar.Shared.Dto.References;
 using AllCar.Shared.Entities.References;
 using AllCar.Shared.ViewModels.References;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System;
 using AllCar.Core.Utilities.Exchange;
 
 namespace AllCar.WebApi.Controllers.References

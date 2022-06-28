@@ -1,22 +1,17 @@
-﻿using AutoMapper;
-using AutoMapper.Extensions.ExpressionMapping;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using AllCar.Core.Extensions;
+﻿using AllCar.Core.Extensions;
 using AllCar.Core.Interfaces;
 using AllCar.Core.Interfaces.Common;
 using AllCar.Core.Interfaces.Common.Providers;
 using AllCar.Core.Utilities.Exchange;
 using AllCar.Shared.Dto;
 using AllCar.Shared.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using AutoMapper;
+using AutoMapper.Extensions.ExpressionMapping;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AllCar.Core.Common
 {
@@ -110,7 +105,7 @@ namespace AllCar.Core.Common
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TEntity, object>>>(include);
 
             var dtos = (await CachingProvider.GetAsync(include, cancellationToken)).AsQueryable()
-                .ToPagedList(parameters.PageNumber, parameters.PageSize);
+                .ToPagedList(parameters);
 
             if (dtos is null || !dtos.Any())
             {
@@ -120,12 +115,12 @@ namespace AllCar.Core.Common
                 {
                     entities = await Repository.Get()
                         .Include(dalInclude)
-                        .ToPagedListAsync(parameters.PageNumber, parameters.PageSize, cancellationToken);
+                        .ToPagedListAsync(parameters, cancellationToken);
                 }
                 else
                 {
                     entities = await Repository.Get()
-                        .ToPagedListAsync(parameters.PageNumber, parameters.PageSize, cancellationToken);
+                        .ToPagedListAsync(parameters, cancellationToken);
                 }
 
                 dtos = new PagedList<TDto>(Mapper.Map<IEnumerable<TDto>>(entities), entities.TotalCount, parameters.PageNumber, parameters.PageSize);
@@ -142,7 +137,7 @@ namespace AllCar.Core.Common
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TAnotherEntity, object>>>(include);
 
             var dtos = (await CachingProvider.GetAsync(include, cancellationToken)).AsQueryable()
-                .ToPagedList(parameters.PageNumber, parameters.PageSize);
+                .ToPagedList(parameters);
 
             if (dtos is null || !dtos.Any())
             {
@@ -152,12 +147,12 @@ namespace AllCar.Core.Common
                 {
                     entities = await Repository.Get<TAnotherEntity>()
                         .Include(dalInclude)
-                        .ToPagedListAsync(parameters.PageNumber, parameters.PageSize, cancellationToken);
+                        .ToPagedListAsync(parameters, cancellationToken);
                 }
                 else
                 {
                     entities = await Repository.Get<TAnotherEntity>()
-                        .ToPagedListAsync(parameters.PageNumber, parameters.PageSize, cancellationToken);
+                        .ToPagedListAsync(parameters, cancellationToken);
                 }
 
                 dtos = new PagedList<TAnotherDto>(Mapper.Map<IEnumerable<TAnotherDto>>(entities), entities.TotalCount, parameters.PageNumber, parameters.PageSize);
@@ -173,7 +168,7 @@ namespace AllCar.Core.Common
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TEntity, object>>>(include);
 
             var dtos = (await CachingProvider.FindAllAsync(predicate, include, cancellationToken)).AsQueryable()
-                .ToPagedList(parameters.PageNumber, parameters.PageSize);
+                .ToPagedList(parameters);
 
             if (dtos is null || !dtos.Any())
             {
@@ -185,13 +180,13 @@ namespace AllCar.Core.Common
                     entities = await Repository.Get()
                         .Include(dalInclude)
                         .Where(dalPredicate)
-                        .ToPagedListAsync(parameters.PageNumber, parameters.PageSize, cancellationToken);
+                        .ToPagedListAsync(parameters, cancellationToken);
                 }
                 else
                 {
                     entities = await Repository.Get()
                         .Where(dalPredicate)
-                        .ToPagedListAsync(parameters.PageNumber, parameters.PageSize, cancellationToken);
+                        .ToPagedListAsync(parameters, cancellationToken);
                 }
 
                 dtos = new PagedList<TDto>(Mapper.Map<IEnumerable<TDto>>(entities), entities.TotalCount, parameters.PageNumber, parameters.PageSize);
@@ -209,7 +204,7 @@ namespace AllCar.Core.Common
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TAnotherEntity, object>>>(include);
 
             var dtos = (await CachingProvider.FindAllAsync(predicate, include, cancellationToken)).AsQueryable()
-                .ToPagedList(parameters.PageNumber, parameters.PageSize);
+                .ToPagedList(parameters);
 
             if (dtos is null || !dtos.Any())
             {
@@ -221,13 +216,13 @@ namespace AllCar.Core.Common
                     entities = await Repository.Get<TAnotherEntity>()
                         .Include(dalInclude)
                         .Where(dalPredicate)
-                        .ToPagedListAsync(parameters.PageNumber, parameters.PageSize, cancellationToken);
+                        .ToPagedListAsync(parameters, cancellationToken);
                 }
                 else
                 {
                     entities = await Repository.Get<TAnotherEntity>()
                         .Where(dalPredicate)
-                        .ToPagedListAsync(parameters.PageNumber, parameters.PageSize, cancellationToken);
+                        .ToPagedListAsync(parameters, cancellationToken);
                 }
 
                 dtos = new PagedList<TAnotherDto>(Mapper.Map<IEnumerable<TAnotherDto>>(entities), entities.TotalCount, parameters.PageNumber, parameters.PageSize);
@@ -272,7 +267,7 @@ namespace AllCar.Core.Common
         {
             var entities = await Repository.Get<LogEntity>()
                 .Where(entity => entity.ContextId == id)
-                .ToPagedListAsync(parameters.PageNumber, parameters.PageSize, cancellationToken);
+                .ToPagedListAsync(parameters, cancellationToken);
 
             var histories = new PagedList<HistoryDto<TDto>>(new List<HistoryDto<TDto>>(), entities.Count, parameters.PageNumber, parameters.PageSize);
 

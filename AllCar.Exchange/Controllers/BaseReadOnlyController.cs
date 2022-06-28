@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,11 +8,7 @@ using AllCar.Core.Utilities.Exchange;
 using AllCar.Shared.Dto;
 using AllCar.Shared.Entities;
 using AllCar.Shared.ViewModels;
-using AllCar.Exchange;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AllCar.Core.Exceptions;
 
 namespace AllCar.Exchange.Controllers
 {
@@ -41,6 +36,7 @@ namespace AllCar.Exchange.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public virtual async Task<IActionResult> Get([FromQuery] PageParameters parameters)
@@ -64,9 +60,16 @@ namespace AllCar.Exchange.Controllers
                         payloadDtos.PageSize)));
                 }
             }
+            catch (BusinessException bEx)
+            {
+
+                Logger.LogError(bEx, "Error occured in Get {Exception}", bEx.ToString());
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new MessageResponse { Message = bEx.ToString() });
+            }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error occured in Get", ex.ToString());
+                Logger.LogError(ex, "Error occured in Get {Exception}", ex.ToString());
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new MessageResponse { Message = ex.ToString() });
             }
@@ -74,6 +77,7 @@ namespace AllCar.Exchange.Controllers
 
         [HttpGet("{id}", Name = "GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -92,6 +96,13 @@ namespace AllCar.Exchange.Controllers
                     return Ok(ExchangeResult.CreateOkResult(userId, payload));
                 }
             }
+            catch (BusinessException bEx)
+            {
+
+                Logger.LogError(bEx, "Error occured in GetById {Exception}", bEx.ToString());
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new MessageResponse { Message = bEx.ToString() });
+            }
             catch (ArgumentException aEx)
             {
                 Logger.LogWarning("Entry not found! {Message}", aEx.Message);
@@ -99,7 +110,7 @@ namespace AllCar.Exchange.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error occured in GetById", ex.ToString());
+                Logger.LogError(ex, "Error occured in GetById {Exception}", ex.ToString());
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new MessageResponse { Message = ex.ToString() });
             }
@@ -107,6 +118,7 @@ namespace AllCar.Exchange.Controllers
 
         [HttpGet("{id}/history")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public virtual async Task<ActionResult<IReadOnlyCollection<HistoryViewModel<TView>>>> GetHistory(Guid id, [FromQuery] PageParameters parameters)
@@ -139,9 +151,16 @@ namespace AllCar.Exchange.Controllers
                     return Ok(ExchangeResult.CreateOkResult(userId, new PagedList<HistoryViewModel<TView>>(histories, dtos.ExtractCount, dtos.CurrentPage, dtos.PageSize)));
                 }
             }
+            catch (BusinessException bEx)
+            {
+
+                Logger.LogError(bEx, "Error occured in GetHistory {Exception}", bEx.ToString());
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new MessageResponse { Message = bEx.ToString() });
+            }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error occured in GetHistory", ex.ToString());
+                Logger.LogError(ex, "Error occured in GetHistory {Exception}", ex.ToString());
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new MessageResponse { Message = ex.ToString() });
             }

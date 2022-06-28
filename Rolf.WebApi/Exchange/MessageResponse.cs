@@ -1,4 +1,4 @@
-﻿namespace AllCar.WebApi.Exchange
+﻿namespace Rolf.WebApi.Exchange
 {
     public class MessageResponse
     {

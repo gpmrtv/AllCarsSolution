@@ -13,9 +13,9 @@ namespace AllCar.DataAccess.Configuration.Logging
             builder.HasKey(k => k.Id);
             builder.Property(p => p.Id).HasColumnName("Id");
             builder.Property(p => p.ContextId).HasColumnName("ContextId").IsRequired();
-            builder.Property(p => p.OldJson).HasColumnName("OldJson");
-            builder.Property(p => p.NewJson).HasColumnName("NewJson");
-            builder.Property(p => p.DifferentsJson).HasColumnName("DifferentsJson");
+            builder.Property(p => p.OldJson).HasColumnName("OldJson").IsRequired(false);
+            builder.Property(p => p.NewJson).HasColumnName("NewJson").IsRequired(false);
+            builder.Property(p => p.DifferentsJson).HasColumnName("DifferentsJson").IsRequired(false);
             builder.Property(p => p.ModifiedUserId).HasColumnName("ModifiedUserId").IsRequired();
             builder.Property(p => p.ModifiedDateTime).HasColumnName("ModifiedDateTime").IsRequired();
             builder.Property(p => p.Operation).HasColumnName("Operation").IsRequired();

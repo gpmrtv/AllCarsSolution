@@ -1,6 +1,5 @@
 ﻿using AllCar.Core.Utilities.Exchange;
 using AllCar.Shared.ViewModels;
-using System;
 
 namespace AllCar.Exchange
 {

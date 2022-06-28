@@ -1,6 +1,5 @@
 ﻿using AllCar.Shared.ViewModels.References;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace AllCar.Shared.ViewModels
 {

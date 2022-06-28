@@ -1,6 +1,4 @@
 ﻿using AllCar.Shared.Dto;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;

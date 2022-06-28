@@ -1,15 +1,10 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using AllCar.Shared.Interfaces.Markers;
+using System.Linq.Expressions;
 using AllCar.Core.Interfaces.Common.Providers;
 using AllCar.Shared.Dto;
-using AllCar.Shared.Interfaces.Markers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace AllCar.Core.Core.Common.Providers
+namespace AllCar.Core.Common.Providers
 {
     internal class CoreCachingProvider : ICachingProvider
     {
@@ -118,8 +113,6 @@ namespace AllCar.Core.Core.Common.Providers
             {
                 MemoryCache.Set(key, new List<TDto>() { dto }, cacheEntryOptions);
             }
-
-
         }
 
         public async Task RemoveAsync<TDto>(TDto dto, CancellationToken cancellationToken = default) where TDto : BaseDto

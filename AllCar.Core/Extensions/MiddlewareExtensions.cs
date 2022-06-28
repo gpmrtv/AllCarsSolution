@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
-using AllCar.Core.Middlewares.Identity;
+﻿using AllCar.Core.Middlewares.Identity;
+using Microsoft.AspNetCore.Builder;
 
 namespace AllCar.Core.Extensions
 {

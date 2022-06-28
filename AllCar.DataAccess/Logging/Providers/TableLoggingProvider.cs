@@ -6,11 +6,6 @@ using AllCar.Core.Interfaces.Common.Providers;
 using AllCar.DataAccess.Context;
 using AllCar.Shared.Entities;
 using AllCar.Shared.Interfaces.Markers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AllCar.DataAccess.Logging.Providers
 {

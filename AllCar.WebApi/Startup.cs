@@ -1,17 +1,8 @@
 using AllCar.WebApi.Mappers;
 using AutoMapper.EquivalencyExpression;
 using AutoMapper.Extensions.ExpressionMapping;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using AllCar.Core.Common;
 using AllCar.Core.DI;
 using AllCar.Core.Interfaces;
 using AllCar.Core.Interfaces.Common;
@@ -23,11 +14,8 @@ using AllCar.Shared.Dto;
 using AllCar.Shared.Dto.References;
 using AllCar.Shared.Entities;
 using AllCar.Shared.Entities.References;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AllCar.WebApi.Services.Domain;
+using AllCar.Core.Common;
 
 namespace AllCar.WebApi
 {
@@ -68,6 +56,7 @@ namespace AllCar.WebApi
             services.AddScoped<IBaseCrudService<GenerationEntity, GenerationDto>, CoreCrudService<GenerationEntity, GenerationDto>>();
             services.AddScoped<IBaseCrudService<MakeEntity, MakeDto>, CoreCrudService<MakeEntity, MakeDto>>();
             services.AddScoped<IBaseCrudService<ModelEntity, ModelDto>, CoreCrudService<ModelEntity, ModelDto>>();
+            services.AddScoped<IBaseCrudService<AreaEntity, AreaDto>, CoreCrudService<AreaEntity, AreaDto>>();
 
             services.AddCoreProviders();
             services.AddCoreServices();

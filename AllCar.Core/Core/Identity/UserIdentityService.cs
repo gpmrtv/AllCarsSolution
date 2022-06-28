@@ -1,20 +1,15 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using AllCar.Core.Common;
+﻿using AllCar.Core.Common;
 using AllCar.Core.Extensions;
 using AllCar.Core.Interfaces;
 using AllCar.Core.Interfaces.Common.Providers;
 using AllCar.Core.Interfaces.Identity;
 using AllCar.Shared.Dto.Identity;
 using AllCar.Shared.Entities.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
-namespace AllCar.Core.Core.Identity
+namespace AllCar.Core.Identity
 {
     public class UserIdentityService : CoreCrudService<UserEntity, UserDto>, IUserIdentityService
     {

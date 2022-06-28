@@ -5,7 +5,6 @@ using AllCar.Core.Interfaces.Common.Providers;
 using AllCar.Shared.Dto.References;
 using AllCar.Shared.Entities.References;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 
 namespace AllCar.WebApi.Services.Domain
 {

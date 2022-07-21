@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
+using System.Linq;
+using AllCar.Core.Exceptions;
 
 namespace AllCar.Core.Common
 {
@@ -19,6 +21,8 @@ namespace AllCar.Core.Common
         where TEntity : BaseEntity
         where TDto : BaseDto
     {
+        protected string DomainName => typeof(TEntity).Name.Replace("Entity", "").ToLower();
+
         protected IRepository<TEntity> Repository { get; init; }
         protected IMapper Mapper { get; init; }
         protected IHttpContextAccessor HttpContextAccessor { get; init; }
@@ -27,6 +31,9 @@ namespace AllCar.Core.Common
         protected List<IDtoProvider> Providers { get; init; }
 
         protected bool disposedValue;
+
+        public bool RequirePermissions { get; init; } = true;
+        public Func<string, string, Guid?, bool> CheckPermissions { get; init; }
 
         public CoreCrudService(IMapper mapper, IUnitOfWork uow, ICachingProvider cachingProvider, IReplicationProvider replicationProvider, IHttpContextAccessor httpContextAccessor)
         {
@@ -40,8 +47,37 @@ namespace AllCar.Core.Common
             };
         }
 
+        protected bool CheckPermissionsInternal(string action, string domain = null, Guid? contextUid = null)
+        {
+            if (!RequirePermissions)
+            {
+                return true;
+            }
+
+            if (CheckPermissions is not null)
+            {
+                return CheckPermissions(action, domain, contextUid);
+            }
+
+            var accessList = HttpContextAccessor.GetCurrentUserAccessList();
+
+            if (accessList is null || !accessList.Any())
+            {
+                throw new ArgumentNullException("accesslist", "is not initialized for current user");
+            }
+
+            if (accessList.FirstOrDefault(x => x.Permissions.Contains($"{domain ?? DomainName}.{action}") && x.ContextUid == contextUid) is null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public virtual async ValueTask<TDto> GetAsync(Expression<Func<TDto, bool>> predicate, Expression<Func<TDto, object>> include = null, CancellationToken cancellationToken = default)
         {
+            ThrowIfAccessDenied("read");
+
             var dalPredicate = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TEntity, object>>>(include);
 
@@ -64,6 +100,8 @@ namespace AllCar.Core.Common
                 }
 
                 await CachingProvider.PutAsync(dto, cancellationToken);
+
+                ThrowIfAccessDenied("read", contextUid: dto.Id);
             }
 
             return dto;
@@ -73,6 +111,10 @@ namespace AllCar.Core.Common
             where TAnotherDto : BaseDto
             where TAnotherEntity : BaseEntity
         {
+            string anotherDomainName = typeof(TAnotherEntity).Name.Replace("Entity", "").ToLower();
+
+            ThrowIfAccessDenied("read", anotherDomainName);
+
             var dalPredicate = Mapper.Map<Expression<Func<TAnotherEntity, bool>>>(predicate);
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TAnotherEntity, object>>>(include);
 
@@ -95,6 +137,8 @@ namespace AllCar.Core.Common
                 }
 
                 await CachingProvider.PutAsync(dto, cancellationToken);
+
+                ThrowIfAccessDenied("read", anotherDomainName, dto.Id);
             }
 
             return dto;
@@ -102,6 +146,8 @@ namespace AllCar.Core.Common
 
         public virtual async Task<PagedList<TDto>> GetAsync(PageParameters parameters, Expression<Func<TDto, object>> include = null, CancellationToken cancellationToken = default)
         {
+            ThrowIfAccessDenied("read");
+
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TEntity, object>>>(include);
 
             var dtos = (await CachingProvider.GetAsync(include, cancellationToken)).AsQueryable()
@@ -123,7 +169,8 @@ namespace AllCar.Core.Common
                         .ToPagedListAsync(parameters, cancellationToken);
                 }
 
-                dtos = new PagedList<TDto>(Mapper.Map<IEnumerable<TDto>>(entities), entities.TotalCount, parameters.PageNumber, parameters.PageSize);
+                dtos = new PagedList<TDto>(Mapper.Map<IEnumerable<TDto>>(entities.Where(x => CheckPermissionsInternal("read", contextUid: x.Id))),
+                    entities.TotalCount, parameters.PageNumber, parameters.PageSize);
                 await CachingProvider.PutAsync(dtos, cancellationToken);
             }
 
@@ -134,6 +181,10 @@ namespace AllCar.Core.Common
             where TAnotherDto : BaseDto
             where TAnotherEntity : BaseEntity
         {
+            string anotherDomainName = typeof(TAnotherEntity).Name.Replace("Entity", "").ToLower();
+
+            ThrowIfAccessDenied("read", anotherDomainName);
+
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TAnotherEntity, object>>>(include);
 
             var dtos = (await CachingProvider.GetAsync(include, cancellationToken)).AsQueryable()
@@ -155,7 +206,8 @@ namespace AllCar.Core.Common
                         .ToPagedListAsync(parameters, cancellationToken);
                 }
 
-                dtos = new PagedList<TAnotherDto>(Mapper.Map<IEnumerable<TAnotherDto>>(entities), entities.TotalCount, parameters.PageNumber, parameters.PageSize);
+                dtos = new PagedList<TAnotherDto>(Mapper.Map<IEnumerable<TAnotherDto>>(entities.Where(x => CheckPermissionsInternal("read", anotherDomainName, contextUid: x.Id))),
+                    entities.TotalCount, parameters.PageNumber, parameters.PageSize);
                 await CachingProvider.PutAsync(dtos, cancellationToken);
             }
 
@@ -164,6 +216,8 @@ namespace AllCar.Core.Common
 
         public virtual async Task<PagedList<TDto>> GetAsync(Expression<Func<TDto, bool>> predicate, PageParameters parameters, Expression<Func<TDto, object>> include = null, CancellationToken cancellationToken = default)
         {
+            ThrowIfAccessDenied("read");
+
             var dalPredicate = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TEntity, object>>>(include);
 
@@ -189,7 +243,8 @@ namespace AllCar.Core.Common
                         .ToPagedListAsync(parameters, cancellationToken);
                 }
 
-                dtos = new PagedList<TDto>(Mapper.Map<IEnumerable<TDto>>(entities), entities.TotalCount, parameters.PageNumber, parameters.PageSize);
+                dtos = new PagedList<TDto>(Mapper.Map<IEnumerable<TDto>>(entities.Where(x => CheckPermissionsInternal("read", contextUid: x.Id))),
+                    entities.TotalCount, parameters.PageNumber, parameters.PageSize);
                 await CachingProvider.PutAsync(dtos, cancellationToken);
             }
 
@@ -200,6 +255,10 @@ namespace AllCar.Core.Common
             where TAnotherDto : BaseDto
             where TAnotherEntity : BaseEntity
         {
+            string anotherDomainName = typeof(TAnotherEntity).Name.Replace("Entity", "").ToLower();
+
+            ThrowIfAccessDenied("read", anotherDomainName);
+
             var dalPredicate = Mapper.Map<Expression<Func<TAnotherEntity, bool>>>(predicate);
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TAnotherEntity, object>>>(include);
 
@@ -225,7 +284,8 @@ namespace AllCar.Core.Common
                         .ToPagedListAsync(parameters, cancellationToken);
                 }
 
-                dtos = new PagedList<TAnotherDto>(Mapper.Map<IEnumerable<TAnotherDto>>(entities), entities.TotalCount, parameters.PageNumber, parameters.PageSize);
+                dtos = new PagedList<TAnotherDto>(Mapper.Map<IEnumerable<TAnotherDto>>(entities.Where(x => CheckPermissionsInternal("read", anotherDomainName, contextUid: x.Id))),
+                    entities.TotalCount, parameters.PageNumber, parameters.PageSize);
                 await CachingProvider.PutAsync(dtos, cancellationToken);
             }
 
@@ -234,6 +294,8 @@ namespace AllCar.Core.Common
 
         public virtual async ValueTask<TDto> CreateAsync(TDto dto, CancellationToken cancellationToken = default)
         {
+            ThrowIfAccessDenied("create");
+
             InitializeBaseFields(ref dto);
 
             var createdEntry = Mapper.Map<TDto>(await Repository.CreateAsync(Mapper.Map<TEntity>(dto), cancellationToken));
@@ -245,6 +307,8 @@ namespace AllCar.Core.Common
 
         public virtual async ValueTask<TDto> UpdateAsync(TDto dto, CancellationToken cancellationToken = default)
         {
+            ThrowIfAccessDenied("edit", contextUid: dto.Id);
+
             InitializeBaseFields(ref dto, isUpdate: true);
 
             var updatedEntry = Mapper.Map<TDto>(await Repository.UpdateAsync(Mapper.Map<TEntity>(dto), cancellationToken));
@@ -256,6 +320,8 @@ namespace AllCar.Core.Common
 
         public virtual async Task RemoveAsync(Guid id, CancellationToken cancellationToken = default)
         {
+            ThrowIfAccessDenied("delete", contextUid: id);
+
             var entry = await GetAsync(entity => entity.Id == id, cancellationToken: cancellationToken);
 
             await Repository.RemoveAsync(Mapper.Map<TEntity>(entry), cancellationToken);
@@ -265,6 +331,8 @@ namespace AllCar.Core.Common
 
         public async Task<PagedList<HistoryDto<TDto>>> GetHistoryAsync(Guid id, PageParameters parameters, CancellationToken cancellationToken = default)
         {
+            ThrowIfAccessDenied("read", contextUid: id);
+
             var entities = await Repository.Get<LogEntity>()
                 .Where(entity => entity.ContextId == id)
                 .ToPagedListAsync(parameters, cancellationToken);
@@ -304,6 +372,14 @@ namespace AllCar.Core.Common
                 dto.Id = Guid.NewGuid();
                 dto.CreatedDateTime = DateTime.UtcNow;
                 dto.CreatedUserId = HttpContextAccessor.GetCurrentUserId();
+            }
+        }
+
+        private void ThrowIfAccessDenied(string action, string domain = null, Guid? contextUid = null)
+        {
+            if (!CheckPermissionsInternal(action, domain ?? DomainName, contextUid))
+            {
+                throw new IdentityException() { Action = action, Domain = domain ?? DomainName, ContextUid = contextUid };
             }
         }
 

@@ -52,7 +52,13 @@ namespace AllCar.Exchange.Controllers
 
                 Logger.LogError(bEx, "Error occured in Post {Exception}", bEx.ToString());
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new MessageResponse { Message = bEx.ToString() });
+                    new MessageResponse { Message = bEx });
+            }
+            catch (IdentityException iEx)
+            {
+
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    new MessageResponse { Message = iEx });
             }
             catch (Exception ex)
             {
@@ -89,7 +95,13 @@ namespace AllCar.Exchange.Controllers
 
                 Logger.LogError(bEx, "Error occured in Put {Exception}", bEx.ToString());
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new MessageResponse { Message = bEx.ToString() });
+                    new MessageResponse { Message = bEx });
+            }
+            catch (IdentityException iEx)
+            {
+
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    new MessageResponse { Message = iEx });
             }
             catch (ArgumentException aEx)
             {
@@ -132,7 +144,13 @@ namespace AllCar.Exchange.Controllers
 
                 Logger.LogError(bEx, "Error occured in Delete {Exception}", bEx.ToString());
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new MessageResponse { Message = bEx.ToString() });
+                    new MessageResponse { Message = bEx });
+            }
+            catch (IdentityException iEx)
+            {
+
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    new MessageResponse { Message = iEx });
             }
             catch (ArgumentException aEx)
             {

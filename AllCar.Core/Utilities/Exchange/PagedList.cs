@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Dynamic.Core;
 
 namespace AllCar.Core.Utilities.Exchange
@@ -52,6 +53,7 @@ namespace AllCar.Core.Utilities.Exchange
 
             var items = query
                 .ApplyFilter(parameters.Filter)
+                .OrderBy("1")
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)
                 .ToList();
@@ -65,6 +67,7 @@ namespace AllCar.Core.Utilities.Exchange
 
             var items = await query
                 .ApplyFilter(parameters.Filter)
+                .OrderBy("1")
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)
                 .ToListAsync(cancellationToken);

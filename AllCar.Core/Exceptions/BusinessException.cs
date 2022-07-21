@@ -8,10 +8,17 @@ namespace AllCar.Core.Exceptions
 {
     public class BusinessException : Exception
     {
-        public string Domain { get; private set; }
+        public string Domain { get; init; }
+
+        public BusinessException()
+        { }
+
+        public BusinessException(string message)
+            : base(message)
+        { }
 
         public BusinessException(string domain, string message)
-            :base(message)
+            : this(message)
         {
             Domain = domain;
         }
@@ -20,5 +27,7 @@ namespace AllCar.Core.Exceptions
         {
             return $"In business domain {Domain} logical error occured.{Environment.NewLine}Error: {Message}";
         }
+
+        public static implicit operator string(BusinessException ex) => ex.ToString();
     }
 }

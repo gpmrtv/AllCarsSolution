@@ -16,7 +16,7 @@ namespace AllCar.Exchange.Controllers
     [Route("api/[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    public class BaseReadOnlyController<TView, TDto, TEntity> : ControllerBase
+    public abstract class BaseReadOnlyController<TView, TDto, TEntity> : ControllerBase
         where TView : BaseViewModel
         where TDto : BaseDto
         where TEntity : BaseEntity
@@ -49,8 +49,6 @@ namespace AllCar.Exchange.Controllers
 
                 using (Service)
                 {
-
-
                     var payloadDtos = await Service.GetAsync(parameters, cancellationToken: HttpContext.RequestAborted);
 
                     return Ok(ExchangeResult.CreateOkResult(userId, new PagedList<TView>(
@@ -65,7 +63,13 @@ namespace AllCar.Exchange.Controllers
 
                 Logger.LogError(bEx, "Error occured in Get {Exception}", bEx.ToString());
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new MessageResponse { Message = bEx.ToString() });
+                    new MessageResponse { Message = bEx });
+            }
+            catch(IdentityException iEx)
+            {
+
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    new MessageResponse { Message = iEx });
             }
             catch (Exception ex)
             {
@@ -101,7 +105,13 @@ namespace AllCar.Exchange.Controllers
 
                 Logger.LogError(bEx, "Error occured in GetById {Exception}", bEx.ToString());
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new MessageResponse { Message = bEx.ToString() });
+                    new MessageResponse { Message = bEx });
+            }
+            catch (IdentityException iEx)
+            {
+
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    new MessageResponse { Message = iEx });
             }
             catch (ArgumentException aEx)
             {
@@ -156,7 +166,13 @@ namespace AllCar.Exchange.Controllers
 
                 Logger.LogError(bEx, "Error occured in GetHistory {Exception}", bEx.ToString());
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new MessageResponse { Message = bEx.ToString() });
+                    new MessageResponse { Message = bEx });
+            }
+            catch (IdentityException iEx)
+            {
+
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    new MessageResponse { Message = iEx });
             }
             catch (Exception ex)
             {

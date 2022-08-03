@@ -10,7 +10,7 @@ namespace AllCar.DataAccess.Configuration.Identity
         {
             base.Configure(builder);
 
-            builder.ToTable("Roles");
+            builder.ToTable("Roles", "identity");
 
             builder.Property(p => p.ContextUid)
                 .IsRequired(false);

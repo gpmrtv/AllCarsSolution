@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AllCar.DataAccess.Migrations
 {
     [DbContext(typeof(ReferencesContext))]
-    [Migration("20220628132418_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220802091339_TranferTablesToNewSchema")]
+    partial class TranferTablesToNewSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,40 @@ namespace AllCar.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+            modelBuilder.Entity("AllCar.Shared.Entities.CarAreasEntity", b =>
+                {
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AreaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("numeric")
+                        .HasColumnName("Cost");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatedUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedDateTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("CarId", "AreaId");
+
+                    b.HasIndex("AreaId");
+
+                    b.ToTable("CarAreas");
+                });
 
             modelBuilder.Entity("AllCar.Shared.Entities.CarEntity", b =>
                 {
@@ -116,7 +150,7 @@ namespace AllCar.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", "identity");
                 });
 
             modelBuilder.Entity("AllCar.Shared.Entities.Identity.RoleEntity", b =>
@@ -158,7 +192,7 @@ namespace AllCar.DataAccess.Migrations
                     b.HasIndex("ParentId")
                         .IsUnique();
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", "identity");
                 });
 
             modelBuilder.Entity("AllCar.Shared.Entities.Identity.RolePermissionsEntity", b =>
@@ -193,7 +227,7 @@ namespace AllCar.DataAccess.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermissions");
+                    b.ToTable("RolePermissions", "identity");
                 });
 
             modelBuilder.Entity("AllCar.Shared.Entities.Identity.UserEntity", b =>
@@ -236,7 +270,7 @@ namespace AllCar.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", "identity");
                 });
 
             modelBuilder.Entity("AllCar.Shared.Entities.Identity.UserRolesEntity", b =>
@@ -271,7 +305,7 @@ namespace AllCar.DataAccess.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", "identity");
                 });
 
             modelBuilder.Entity("AllCar.Shared.Entities.LogEntity", b =>
@@ -395,40 +429,6 @@ namespace AllCar.DataAccess.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Bodies");
-                });
-
-            modelBuilder.Entity("AllCar.Shared.Entities.References.CarAreasEntity", b =>
-                {
-                    b.Property<Guid>("CarId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AreaId")
-                        .HasColumnType("uuid");
-
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("numeric")
-                        .HasColumnName("Cost");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("CreatedUserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("UpdatedDateTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid?>("UpdatedUserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("CarId", "AreaId");
-
-                    b.HasIndex("AreaId");
-
-                    b.ToTable("CarAreas");
                 });
 
             modelBuilder.Entity("AllCar.Shared.Entities.References.ColorEntity", b =>
@@ -762,6 +762,25 @@ namespace AllCar.DataAccess.Migrations
                     b.ToTable("Models");
                 });
 
+            modelBuilder.Entity("AllCar.Shared.Entities.CarAreasEntity", b =>
+                {
+                    b.HasOne("AllCar.Shared.Entities.References.AreaEntity", "Area")
+                        .WithMany("CarAreas")
+                        .HasForeignKey("AreaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AllCar.Shared.Entities.CarEntity", "Car")
+                        .WithMany("CarAreas")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Area");
+
+                    b.Navigation("Car");
+                });
+
             modelBuilder.Entity("AllCar.Shared.Entities.CarEntity", b =>
                 {
                     b.HasOne("AllCar.Shared.Entities.References.ColorEntity", "Color")
@@ -836,25 +855,6 @@ namespace AllCar.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("AllCar.Shared.Entities.References.CarAreasEntity", b =>
-                {
-                    b.HasOne("AllCar.Shared.Entities.References.AreaEntity", "Area")
-                        .WithMany("CarAreas")
-                        .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AllCar.Shared.Entities.CarEntity", "Car")
-                        .WithMany("CarAreas")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Area");
-
-                    b.Navigation("Car");
                 });
 
             modelBuilder.Entity("AllCar.Shared.Entities.References.ColorEntity", b =>

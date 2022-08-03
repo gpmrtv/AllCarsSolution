@@ -17,12 +17,12 @@ namespace AllCar.Core.Common.Providers
             MemoryCache = memoryCache;
         }
 
-        public ValueTask<IEnumerable<TDto>> FindAllAsync<TDto>(Expression<Func<TDto, bool>> predicate, Expression<Func<TDto, object>> include = null, CancellationToken cancellationToken = default) where TDto : BaseDto
+        public ValueTask<IEnumerable<TDto>> FindAllAsync<TDto>(Expression<Func<TDto, bool>> predicate, CancellationToken cancellationToken = default) where TDto : BaseDto
         {
             return ValueTask.FromResult<IEnumerable<TDto>>(new List<TDto>());
         }
 
-        public async ValueTask<TDto> GetAsync<TDto>(Expression<Func<TDto, bool>> predicate, Expression<Func<TDto, object>> include = null, CancellationToken cancellationToken = default) where TDto : BaseDto
+        public async ValueTask<TDto> GetAsync<TDto>(Expression<Func<TDto, bool>> predicate, CancellationToken cancellationToken = default) where TDto : BaseDto
         {
             await Task.Yield();
 
@@ -41,7 +41,7 @@ namespace AllCar.Core.Common.Providers
             return default;
         }
 
-        public async ValueTask<IEnumerable<TDto>> GetAsync<TDto>(Expression<Func<TDto, object>> include = null, CancellationToken cancellationToken = default) where TDto : BaseDto
+        public async ValueTask<IEnumerable<TDto>> GetAllAsync<TDto>(CancellationToken cancellationToken = default) where TDto : BaseDto
         {
             await Task.Yield();
 

@@ -12,7 +12,7 @@ using AllCar.Core.DI;
 using AllCar.Core.Extensions;
 using AllCar.Core.Interfaces;
 using AllCar.Core.Interfaces.Common.Providers;
-using AllCar.DataAccess;
+using AllCar.DataAccess.Units;
 using AllCar.DataAccess.Context;
 using AllCar.DataAccess.Logging.Providers;
 using AllCar.Identity;
@@ -63,11 +63,11 @@ namespace Rolf.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AllCar.WebApi", Version = "v1", Description = "Primary backend service for AllCar" });
             });
 
-            services.AddDbContext<SqlEfContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("PgSqlConnectionString"), b => b.MigrationsAssembly("AllCar.DataAccess"))
+            services.AddDbContext<ReferencesContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("PgSqlConnectionString"), b => b.MigrationsAssembly("AllCar.DataAccess"))
             .EnableSensitiveDataLogging());
 
             services.AddScoped<ILoggingProvider, TableLoggingProvider>();
-            services.AddScoped<IUnitOfWork, SqlUnitOfWork>();
+            services.AddScoped<IUnitOfWork, ReferencesUnitOfWork>();
 
             services.AddHttpContextAccessor();
 

@@ -7,7 +7,7 @@ using AllCar.Core.DI;
 using AllCar.Core.Interfaces;
 using AllCar.Core.Interfaces.Common;
 using AllCar.Core.Interfaces.Common.Providers;
-using AllCar.DataAccess;
+using AllCar.DataAccess.Units;
 using AllCar.DataAccess.Context;
 using AllCar.DataAccess.Logging.Providers;
 using AllCar.Shared.Dto;
@@ -16,6 +16,8 @@ using AllCar.Shared.Entities;
 using AllCar.Shared.Entities.References;
 using AllCar.WebApi.Services.Domain;
 using AllCar.Core.Common;
+using AllCar.Redis.Providers;
+using AllCar.DataAccess.Logging.Providers.Concrete;
 
 namespace AllCar.WebApi
 {
@@ -39,11 +41,11 @@ namespace AllCar.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AllCar.WebApi", Version = "v1" });
             });
 
-            services.AddDbContext<SqlEfContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("PgSqlConnectionString"), b => b.MigrationsAssembly("AllCar.DataAccess"))
+            services.AddDbContext<ReferencesContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("PgSqlConnectionString"), b => b.MigrationsAssembly("AllCar.DataAccess"))
                                                           .EnableSensitiveDataLogging());
 
-            services.AddScoped<ILoggingProvider, TableLoggingProvider>();
-            services.AddScoped<IUnitOfWork, SqlUnitOfWork>();
+            services.AddScoped<ILoggingProvider, ReferencesLoggingProvider>();
+            services.AddScoped<IUnitOfWork, ReferencesUnitOfWork>();
 
             services.AddHttpContextAccessor();
 
@@ -57,6 +59,8 @@ namespace AllCar.WebApi
             services.AddScoped<IBaseCrudService<MakeEntity, MakeDto>, CoreCrudService<MakeEntity, MakeDto>>();
             services.AddScoped<IBaseCrudService<ModelEntity, ModelDto>, CoreCrudService<ModelEntity, ModelDto>>();
             services.AddScoped<IBaseCrudService<AreaEntity, AreaDto>, CoreCrudService<AreaEntity, AreaDto>>();
+
+            services.AddScoped<ICachingProvider, AllCar.Redis.Providers.CachingProvider>(x => new CachingProvider("localhost:6379"));
 
             services.AddCoreProviders();
             services.AddCoreServices();

@@ -32,10 +32,11 @@ namespace AllCar.Core.Common
 
         protected bool disposedValue;
 
-        public bool RequirePermissions { get; init; } = true;
+        public bool RequirePermissions { get; init; } = false;
         public Func<string, string, Guid?, bool> CheckPermissions { get; init; }
 
-        public CoreCrudService(IMapper mapper, IUnitOfWork uow, ICachingProvider cachingProvider, IReplicationProvider replicationProvider, IHttpContextAccessor httpContextAccessor)
+        public CoreCrudService(IMapper mapper, IUnitOfWork uow, ICachingProvider cachingProvider, IReplicationProvider replicationProvider,
+            IHttpContextAccessor httpContextAccessor)
         {
             Mapper = mapper;
             Repository = uow.GetRepository<TEntity>();
@@ -81,7 +82,7 @@ namespace AllCar.Core.Common
             var dalPredicate = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TEntity, object>>>(include);
 
-            var dto = await CachingProvider.GetAsync(predicate, include, cancellationToken);
+            var dto = await CachingProvider.GetAsync(predicate, cancellationToken);
 
             if (dto is null)
             {
@@ -118,7 +119,7 @@ namespace AllCar.Core.Common
             var dalPredicate = Mapper.Map<Expression<Func<TAnotherEntity, bool>>>(predicate);
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TAnotherEntity, object>>>(include);
 
-            var dto = await CachingProvider.GetAsync(predicate, include, cancellationToken);
+            var dto = await CachingProvider.GetAsync(predicate, cancellationToken);
 
             if (dto is null)
             {
@@ -150,8 +151,8 @@ namespace AllCar.Core.Common
 
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TEntity, object>>>(include);
 
-            var dtos = (await CachingProvider.GetAsync(include, cancellationToken)).AsQueryable()
-                .ToPagedList(parameters);
+            var dtos = (await CachingProvider.GetAllAsync<TDto>(cancellationToken)).AsQueryable()
+                ?.ToPagedList(parameters);
 
             if (dtos is null || !dtos.Any())
             {
@@ -161,12 +162,12 @@ namespace AllCar.Core.Common
                 {
                     entities = await Repository.Get()
                         .Include(dalInclude)
-                        .ToPagedListAsync(parameters, cancellationToken);
+                        ?.ToPagedListAsync(parameters, cancellationToken);
                 }
                 else
                 {
                     entities = await Repository.Get()
-                        .ToPagedListAsync(parameters, cancellationToken);
+                        ?.ToPagedListAsync(parameters, cancellationToken);
                 }
 
                 dtos = new PagedList<TDto>(Mapper.Map<IEnumerable<TDto>>(entities.Where(x => CheckPermissionsInternal("read", contextUid: x.Id))),
@@ -187,8 +188,8 @@ namespace AllCar.Core.Common
 
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TAnotherEntity, object>>>(include);
 
-            var dtos = (await CachingProvider.GetAsync(include, cancellationToken)).AsQueryable()
-                .ToPagedList(parameters);
+            var dtos = (await CachingProvider.GetAllAsync<TAnotherDto>(cancellationToken)).AsQueryable()
+                ?.ToPagedList(parameters);
 
             if (dtos is null || !dtos.Any())
             {
@@ -198,12 +199,12 @@ namespace AllCar.Core.Common
                 {
                     entities = await Repository.Get<TAnotherEntity>()
                         .Include(dalInclude)
-                        .ToPagedListAsync(parameters, cancellationToken);
+                        ?.ToPagedListAsync(parameters, cancellationToken);
                 }
                 else
                 {
                     entities = await Repository.Get<TAnotherEntity>()
-                        .ToPagedListAsync(parameters, cancellationToken);
+                        ?.ToPagedListAsync(parameters, cancellationToken);
                 }
 
                 dtos = new PagedList<TAnotherDto>(Mapper.Map<IEnumerable<TAnotherDto>>(entities.Where(x => CheckPermissionsInternal("read", anotherDomainName, contextUid: x.Id))),
@@ -221,8 +222,8 @@ namespace AllCar.Core.Common
             var dalPredicate = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TEntity, object>>>(include);
 
-            var dtos = (await CachingProvider.FindAllAsync(predicate, include, cancellationToken)).AsQueryable()
-                .ToPagedList(parameters);
+            var dtos = (await CachingProvider.FindAllAsync(predicate, cancellationToken)).AsQueryable()
+                ?.ToPagedList(parameters);
 
             if (dtos is null || !dtos.Any())
             {
@@ -234,13 +235,13 @@ namespace AllCar.Core.Common
                     entities = await Repository.Get()
                         .Include(dalInclude)
                         .Where(dalPredicate)
-                        .ToPagedListAsync(parameters, cancellationToken);
+                        ?.ToPagedListAsync(parameters, cancellationToken);
                 }
                 else
                 {
                     entities = await Repository.Get()
                         .Where(dalPredicate)
-                        .ToPagedListAsync(parameters, cancellationToken);
+                        ?.ToPagedListAsync(parameters, cancellationToken);
                 }
 
                 dtos = new PagedList<TDto>(Mapper.Map<IEnumerable<TDto>>(entities.Where(x => CheckPermissionsInternal("read", contextUid: x.Id))),
@@ -262,8 +263,8 @@ namespace AllCar.Core.Common
             var dalPredicate = Mapper.Map<Expression<Func<TAnotherEntity, bool>>>(predicate);
             var dalInclude = Mapper.MapExpressionAsInclude<Expression<Func<TAnotherEntity, object>>>(include);
 
-            var dtos = (await CachingProvider.FindAllAsync(predicate, include, cancellationToken)).AsQueryable()
-                .ToPagedList(parameters);
+            var dtos = (await CachingProvider.FindAllAsync<TAnotherDto>(predicate, cancellationToken)).AsQueryable()
+                ?.ToPagedList(parameters);
 
             if (dtos is null || !dtos.Any())
             {
@@ -275,13 +276,13 @@ namespace AllCar.Core.Common
                     entities = await Repository.Get<TAnotherEntity>()
                         .Include(dalInclude)
                         .Where(dalPredicate)
-                        .ToPagedListAsync(parameters, cancellationToken);
+                        ?.ToPagedListAsync(parameters, cancellationToken);
                 }
                 else
                 {
                     entities = await Repository.Get<TAnotherEntity>()
                         .Where(dalPredicate)
-                        .ToPagedListAsync(parameters, cancellationToken);
+                        ?.ToPagedListAsync(parameters, cancellationToken);
                 }
 
                 dtos = new PagedList<TAnotherDto>(Mapper.Map<IEnumerable<TAnotherDto>>(entities.Where(x => CheckPermissionsInternal("read", anotherDomainName, contextUid: x.Id))),
@@ -335,7 +336,7 @@ namespace AllCar.Core.Common
 
             var entities = await Repository.Get<LogEntity>()
                 .Where(entity => entity.ContextId == id)
-                .ToPagedListAsync(parameters, cancellationToken);
+                ?.ToPagedListAsync(parameters, cancellationToken);
 
             var histories = new PagedList<HistoryDto<TDto>>(new List<HistoryDto<TDto>>(), entities.Count, parameters.PageNumber, parameters.PageSize);
 

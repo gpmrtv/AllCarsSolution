@@ -10,7 +10,7 @@ namespace AllCar.DataAccess.Configuration.Identity
         {
             base.Configure(builder);
 
-            builder.ToTable("Users");
+            builder.ToTable("Users", "identity");
 
             builder.Property(p => p.Name).HasMaxLength(64).IsRequired();
             builder.Property(p => p.LastName).HasMaxLength(128).IsRequired();

@@ -10,7 +10,7 @@ namespace AllCar.DataAccess.Configuration.Identity
         {
             base.Configure(builder);
 
-            builder.ToTable("UserRoles");
+            builder.ToTable("UserRoles", "identity");
 
             builder.HasKey(k => new { k.UserId, k.RoleId });
 

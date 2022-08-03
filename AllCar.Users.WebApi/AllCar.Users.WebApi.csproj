@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AllCar.Core\AllCar.Core.csproj" />
+    <ProjectReference Include="..\AllCar.DataAccess\AllCar.DataAccess.csproj" />
+    <ProjectReference Include="..\AllCar.Exchange\AllCar.Exchange.csproj" />
+    <ProjectReference Include="..\AllCar.Redis\AllCar.Redis.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -9,15 +9,15 @@ using AllCar.Shared.Interfaces.Markers;
 
 namespace AllCar.DataAccess.Logging.Providers
 {
-    public class TableLoggingProvider : ILoggingProvider
+    public abstract class TableLoggingProvider : ILoggingProvider
     {
-        protected DbContext Context { get; init; }
-        protected DbSet<LogEntity> Set { get; init; }
-        protected IHttpContextAccessor HttpContextAccessor { get; init; }
+        protected virtual DbContext Context { get; init; }
+        protected virtual DbSet<LogEntity> Set { get; init; }
+        protected virtual IHttpContextAccessor HttpContextAccessor { get; init; }
 
         private bool disposedValue;
 
-        public TableLoggingProvider(SqlEfContext context, IHttpContextAccessor httpContextAccessor)
+        public TableLoggingProvider(DbContext context, IHttpContextAccessor httpContextAccessor)
         {
             Context = context;
             Set = Context.Set<LogEntity>();
@@ -25,7 +25,7 @@ namespace AllCar.DataAccess.Logging.Providers
             HttpContextAccessor = httpContextAccessor;
         }
 
-        public async Task LogCreatingEntity<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : BaseEntity
+        public virtual async Task LogCreatingEntity<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : BaseEntity
         {
             if (entity is ILoggable)
             {
@@ -43,7 +43,7 @@ namespace AllCar.DataAccess.Logging.Providers
             }
         }
 
-        public async Task LogCreatingEntity<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : BaseEntity
+        public virtual async Task LogCreatingEntity<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : BaseEntity
         {
             var logs = new List<LogEntity>();
 
@@ -66,7 +66,7 @@ namespace AllCar.DataAccess.Logging.Providers
             }
         }
 
-        public async Task LogUpdatingEntity<TEntity>(TEntity entity, TEntity oldEntity, CancellationToken cancellationToken = default) where TEntity : BaseEntity
+        public virtual async Task LogUpdatingEntity<TEntity>(TEntity entity, TEntity oldEntity, CancellationToken cancellationToken = default) where TEntity : BaseEntity
         {
             if (entity is ILoggable)
             {
@@ -86,7 +86,7 @@ namespace AllCar.DataAccess.Logging.Providers
             }
         }
 
-        public async Task LogRemovingEntity<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : BaseEntity
+        public virtual async Task LogRemovingEntity<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : BaseEntity
         {
             if (entity is ILoggable)
             {
@@ -104,7 +104,7 @@ namespace AllCar.DataAccess.Logging.Providers
             }
         }
 
-        public async Task LogRemovingEntity<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : BaseEntity
+        public virtual async Task LogRemovingEntity<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : BaseEntity
         {
             var logs = new List<LogEntity>();
 

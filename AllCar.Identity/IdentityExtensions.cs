@@ -6,7 +6,7 @@ namespace AllCar.Identity
 {
     public static class IdentityExtensions
     {
-        public static ClaimsPrincipal GetIdentity(this HttpContext context) => context.Features.Get<ClaimsPrincipal>();
+        public static ClaimsPrincipal GetIdentity(this HttpContext context) => context.Features.Get<ClaimsPrincipal>()!;
 
         public static IServiceCollection AddAllCarIdentity(
             this IServiceCollection services,

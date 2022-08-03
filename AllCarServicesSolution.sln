@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllCar.DataAccess", "AllCar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllCar.Shared", "AllCar.Shared\AllCar.Shared.csproj", "{6F60C53D-1A72-446F-A03B-709D9FD5E128}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllCar.Redis", "AllCar.Redis\AllCar.Redis.csproj", "{015661D1-DF2B-49FF-9347-FF896DF9F30B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllCar.Users.WebApi", "AllCar.Users.WebApi\AllCar.Users.WebApi.csproj", "{CA963B7D-7219-492A-8B78-E174E0776245}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{6F60C53D-1A72-446F-A03B-709D9FD5E128}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F60C53D-1A72-446F-A03B-709D9FD5E128}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F60C53D-1A72-446F-A03B-709D9FD5E128}.Release|Any CPU.Build.0 = Release|Any CPU
+		{015661D1-DF2B-49FF-9347-FF896DF9F30B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{015661D1-DF2B-49FF-9347-FF896DF9F30B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{015661D1-DF2B-49FF-9347-FF896DF9F30B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{015661D1-DF2B-49FF-9347-FF896DF9F30B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA963B7D-7219-492A-8B78-E174E0776245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA963B7D-7219-492A-8B78-E174E0776245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA963B7D-7219-492A-8B78-E174E0776245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA963B7D-7219-492A-8B78-E174E0776245}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,11 +2,11 @@
 using AllCar.Shared.Entities.Identity;
 using AutoMapper;
 
-namespace AllCar.Core.Mappers
+namespace AllCar.Users.WebApi.Mappers
 {
-    public class CoreMapperProfile : Profile
+    public class ViewMapperProfile : Profile
     {
-        public CoreMapperProfile()
+        public ViewMapperProfile()
         {
             CreateMap<UserEntity, UserDto>().ReverseMap();
         }

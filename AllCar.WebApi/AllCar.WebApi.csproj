@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AllCar.DataAccess\AllCar.DataAccess.csproj" />
     <ProjectReference Include="..\AllCar.Exchange\AllCar.Exchange.csproj" />
+    <ProjectReference Include="..\AllCar.Redis\AllCar.Redis.csproj" />
   </ItemGroup>
 
 </Project>

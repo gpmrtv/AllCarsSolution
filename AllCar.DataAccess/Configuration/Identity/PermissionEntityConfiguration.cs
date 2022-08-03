@@ -10,7 +10,7 @@ namespace AllCar.DataAccess.Configuration.Identity
         {
             base.Configure(builder);
 
-            builder.ToTable("Permissions");
+            builder.ToTable("Permissions", "identity");
 
             builder.Property(p => p.Name)
                 .HasMaxLength(64)
